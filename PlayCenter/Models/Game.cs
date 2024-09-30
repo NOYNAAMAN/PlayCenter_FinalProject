@@ -10,5 +10,8 @@ namespace PlayCenter.Models
         public string ImagePath { get; set; }
         public string Description { get; set; }
         public string ExecutablePath { get; set; }
+        public string MoreInfo { get; set; }
+        public string LaunchButtonColor { get; set; }
+        public string MoreInfoButtonColor { get; set; }
     }
 }

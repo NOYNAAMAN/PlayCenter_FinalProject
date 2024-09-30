@@ -37,33 +37,39 @@ namespace Calender
         {
             calendarItemsPanel.Children.Clear();
 
-            var itemsForDate = _calendarItems
+            try
+            {
+                var itemsForDate = _calendarItems
                 .Where(item => item.Time.Date == selectedDate.Date)
                 .ToList();
 
-            int totalTasks = itemsForDate.Count;
-            TasksCounterTextBlock.Text = $"{totalTasks} task{(totalTasks != 1 ? "s" : "")}";
+                int totalTasks = itemsForDate.Count;
+                TasksCounterTextBlock.Text = $"{totalTasks} task{(totalTasks != 1 ? "s" : "")}";
 
 
-            foreach (var item in itemsForDate)
-            {
-                var calendarItemControl = new Item
+                foreach (var item in itemsForDate)
                 {
-                    ItemId = item.ItemId,
-                    Title = item.Title,
-                    Time = item.NotificationHour,
-                    Color = new SolidColorBrush(item.IsChecked ? Colors.LightPink : Colors.White),
-                    Icon = item.IsChecked ? FontAwesome.WPF.FontAwesomeIcon.CheckCircle : FontAwesome.WPF.FontAwesomeIcon.CircleThin,
-                    IconBell = item.IsMuted ? FontAwesome.WPF.FontAwesomeIcon.BellSlash : FontAwesome.WPF.FontAwesomeIcon.Bell
-                };
+                    var calendarItemControl = new Item
+                    {
+                        ItemId = item.ItemId,
+                        Title = item.Title,
+                        Time = item.NotificationHour,
+                        Color = new SolidColorBrush(item.IsChecked ? Colors.LightPink : Colors.White),
+                        Icon = item.IsChecked ? FontAwesome.WPF.FontAwesomeIcon.CheckCircle : FontAwesome.WPF.FontAwesomeIcon.CircleThin,
+                        IconBell = item.IsMuted ? FontAwesome.WPF.FontAwesomeIcon.BellSlash : FontAwesome.WPF.FontAwesomeIcon.Bell
+                    };
 
-                calendarItemControl.DeleteItem += CalendarItemControl_DeleteItem;
-                calendarItemControl.CheckItem += CalendarItemControl_CheckItem;
-                calendarItemControl.MuteItem += CalendarItemControl_MuteItem;
-                calendarItemControl.EditItem += CalendarItemControl_EditItem;
+                    calendarItemControl.DeleteItem += CalendarItemControl_DeleteItem;
+                    calendarItemControl.CheckItem += CalendarItemControl_CheckItem;
+                    calendarItemControl.MuteItem += CalendarItemControl_MuteItem;
+                    calendarItemControl.EditItem += CalendarItemControl_EditItem;
 
-                calendarItemsPanel.Children.Add(calendarItemControl);
-            }
+                    calendarItemsPanel.Children.Add(calendarItemControl);
+                }
+            } catch(Exception ex)
+            {
+                throw new Exception($"No items foundõ Error: {ex.Message}");
+             }
         }
 
         private async void CalendarItemControl_DeleteItem(object sender, int itemId)

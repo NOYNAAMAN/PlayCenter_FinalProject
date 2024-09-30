@@ -5,28 +5,37 @@
         MinHeight="600" MinWidth="800"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize">
+
+    <Window.Background>
+        <ImageBrush ImageSource="Images/white-bg.jpg" Stretch="UniformToFill"/>
+    </Window.Background>
+
     <Grid Margin="10">
+
         <ItemsControl ItemsSource="{Binding Games}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <!-- הגדרת שורות לגריד: שורה אחת עבור השם ושורה שנייה עבור הבלוק -->
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <!-- שם המשחק ממוקם ממש מעל הבלוק -->
                         <TextBlock Text="{Binding Name}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,0,5"/>
 
-                        <!-- בלוק עם תמונה ממוקם בשורה התחתונה -->
                         <Button Grid.Row="1" Command="{Binding DataContext.GameSelectedCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" VerticalAlignment="Top">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <!-- בלוק עם פינות מעוגלות -->
                                     <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="30" Width="180" Height="180" ClipToBounds="True">
                                         <Border.Background>
-                                            <ImageBrush ImageSource="{Binding ImagePath}" Stretch="UniformToFill"/>
+                                            <VisualBrush>
+                                                <VisualBrush.Visual>
+                                                    <Grid>
+                                                        <Border Background="White"/>
+                                                        <Image Source="{Binding ImagePath}" Stretch="UniformToFill"/>
+                                                    </Grid>
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
                                         </Border.Background>
                                     </Border>
                                 </ControlTemplate>
@@ -37,10 +46,11 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <!-- התאמת הבלוקים לפריסה רספונסיבית -->
                     <UniformGrid Columns="3" IsItemsHost="True"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
+
+        
     </Grid>
 </Window>

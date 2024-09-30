@@ -25,8 +25,16 @@ namespace Calender.Services
                 return new List<CalendarItem>();
             }
 
-            var json = await File.ReadAllTextAsync(FilePath);
-            return JsonSerializer.Deserialize<List<CalendarItem>>(json) ?? new List<CalendarItem>();
+            try
+            {
+                var json = await File.ReadAllTextAsync(FilePath);
+                return JsonSerializer.Deserialize<List<CalendarItem>>(json) ?? new List<CalendarItem>();
+            }
+            catch (JsonException)
+            {
+                File.Delete(FilePath);
+                return new List<CalendarItem>();
+            }
         }
 
         public int GetNextItemId(List<CalendarItem> items)
